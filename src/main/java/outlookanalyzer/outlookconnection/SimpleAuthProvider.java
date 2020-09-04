@@ -5,13 +5,15 @@ import com.microsoft.graph.authentication.IAuthenticationProvider;
 import com.microsoft.graph.http.IHttpRequest;
 import org.slf4j.LoggerFactory;
 
+import java.security.AuthProvider;
+
 /**
  * SimpleAuthProvider
  */
 public class SimpleAuthProvider implements IAuthenticationProvider {
 
     private static Logger log = (Logger) LoggerFactory.getLogger(SimpleAuthProvider.class);
-    private static String accessToken = null;
+    private static String accessToken;
 
     public SimpleAuthProvider() {
         log.info("No Access token provided.");

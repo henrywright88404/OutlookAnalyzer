@@ -1,9 +1,13 @@
 package outlookanalyzer.Utils;
 
 import ch.qos.logback.classic.Logger;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.LoggerFactory;
+import outlookanalyzer.models.user;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,6 +16,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JSONUtil {
     private static final Logger log = (Logger) LoggerFactory.getLogger(JSONUtil.class);
@@ -26,7 +32,7 @@ public class JSONUtil {
 
         filename = filename.contains(".json") ? filename : filename+".json" ;
 
-        InputStream is = JSONUtil.class.getResourceAsStream(filename);
+        InputStream is = JSONUtil.class.getClassLoader().getResourceAsStream(filename);
 
         try{
             if (is == null) {
@@ -45,6 +51,7 @@ public class JSONUtil {
 
         }catch (Exception e){
             log.error(e.toString());
+            throw e;
         }
 
         return data;
@@ -80,5 +87,23 @@ public class JSONUtil {
         }
 
         return result;
+    }
+
+public static List<user> getMailboxes(String mailboxJsonFile) throws Exception {
+        List<user> userList = new ArrayList<>();
+
+        JSONObject mailBoxesObject = readJsonFile(mailboxJsonFile);
+        JSONArray mailBoxesArray = mailBoxesObject.getJSONArray("user");
+
+    for (Object mailBox : mailBoxesArray) {
+        try {
+            userList.add(new ObjectMapper().readValue(mailBox.toString(), user.class));
+        } catch (JsonProcessingException e) {
+            log.error("userMapping error" + e);
+            throw e;
+        }
+    }
+
+    return userList;
     }
 }

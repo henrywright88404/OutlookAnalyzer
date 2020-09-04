@@ -5,6 +5,10 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.json.JSONObject;
+import outlookanalyzer.Utils.JSONUtil;
+import outlookanalyzer.models.user;
+import outlookanalyzer.outlookconnection.Authentication;
 import outlookanalyzer.outlookconnection.SimpleAuthProvider;
 import outlookanalyzer.scene.ConfigScene;
 import outlookanalyzer.scene.MainWindow;
@@ -26,6 +30,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException, XmlPullParserException {
+
+
+        Authentication.initialize();
 
         mainstage = stage;
         Scene scene = mainWindow.getMainWindow(stage);

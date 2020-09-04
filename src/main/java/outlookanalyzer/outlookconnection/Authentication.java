@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import outlookanalyzer.App;
 import outlookanalyzer.scene.SignInLink;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Properties;
@@ -28,6 +30,8 @@ public class Authentication {
     private static final Properties oAuthProperties = new Properties();
     private static String[] appScopes;
     private static String applicationId;
+    private static String accessToken;
+
     // Set authority to allow only organizational accounts
     // Device code flow only supports organizational accounts
     private final static String authority = "https://login.microsoftonline.com/common/";
@@ -38,6 +42,9 @@ public class Authentication {
 
         applicationId = oAuthProperties.getProperty("app.id");
         appScopes = oAuthProperties.getProperty("app.scopes").split(",");
+        accessToken = oAuthProperties.getProperty("app.accessToken");
+
+        SimpleAuthProvider.setAccessToken(accessToken);
 
         return new Authentication();
     }
@@ -48,6 +55,15 @@ public class Authentication {
         if (applicationId == null) {
             log.error("You must initialize Authentication before calling getUserAccessToken");
             return null;
+        }
+
+        if (accessToken != null){
+            try{
+                Mail.getMessagesFromMe();
+                return accessToken;
+            }catch (Exception e){
+                System.out.println(e);
+            }
         }
 
         Set<String> scopeSet = Set.of(appScopes);
@@ -114,7 +130,12 @@ public class Authentication {
 
         if (result != null) {
             SimpleAuthProvider.setAccessToken(result1.accessToken());
-
+            oAuthProperties.setProperty("app.accessToken",result1.accessToken());
+            try {
+                oAuthProperties.store(new FileOutputStream("oAuth.properties"),null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return result1.accessToken();
         }
 

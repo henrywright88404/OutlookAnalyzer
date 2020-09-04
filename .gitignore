@@ -106,3 +106,5 @@ hs_err_pid*
 .idea/vcs.xml
 OutlookAnalyzer.iml
 target/
+/src/main/resources/testJSON.json
+/src/main/resources/oAuth.properties

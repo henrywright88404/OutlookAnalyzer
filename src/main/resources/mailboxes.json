@@ -1,1 +1,10 @@
-{}
+{
+  "mailboxes": [
+    "{\"inbox\":{\"messages\":[]},\"userName\":\"marc.henrywright\",\"emailAddress\":\"marc.henrywright@ando.co.nz\",\"team\":\"\"}",
+    "{\"inbox\":{\"messages\":[]},\"userName\":\"marc.henrywright\",\"emailAddress\":\"marc.henrywright@ando.co.nz\",\"team\":\"\"}"
+  ],
+  "user": [
+    "{\"inbox\":{\"messages\":[]},\"userName\":\"marc.henrywright\",\"emailAddress\":\"marc.henrywright@ando.co.nz\",\"team\":\"\"}",
+    "{\"inbox\":{\"messages\":[]},\"userName\":\"marc.henrywright\",\"emailAddress\":\"marc.henrywright@ando.co.nz\",\"team\":\"\"}"
+  ]
+}

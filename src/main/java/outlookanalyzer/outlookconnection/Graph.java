@@ -17,10 +17,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Graph {
-    private static IGraphServiceClient graphClient = null;
-    private static SimpleAuthProvider authProvider = null;
+    protected static IGraphServiceClient graphClient = null;
+    protected static SimpleAuthProvider authProvider = null;
 
-    private static void ensureGraphClient(String accessToken) {
+
+    protected static void ensureGraphClient(String accessToken) {
         if (graphClient == null) {
             // Create the auth provider
             authProvider = new SimpleAuthProvider(accessToken);
@@ -68,54 +69,5 @@ public class Graph {
         return eventPage.getCurrentPage();
     }
 
-    public static void getMessagesFromMailBox(String mailbox){
-        ensureGraphClient(SimpleAuthProvider.getAccessToken());
-        // Use QueryOption to specify the $orderby query parameter
-        final List<Option> options = new LinkedList<Option>();
-        // Sort results by createdDateTime, get newest first
-        options.add(new QueryOption("orderby", "createdDateTime DESC"));
 
-        IMessageCollectionPage eventCollectionPage = graphClient
-                .users(mailbox)
-                .mailFolders("inbox")
-                .messages()
-                .buildRequest().top(200)
-                .get();
-
-
-        List<Message> messageList = eventCollectionPage.getCurrentPage();
-
-
-        for (Message e:messageList
-             ) {
-            System.out.println(e.subject + " " +e.categories);
-
-        }
-
-    }
-
-    public static void getMessagesFromMe(){
-        ensureGraphClient(SimpleAuthProvider.getAccessToken());
-        // Use QueryOption to specify the $orderby query parameter
-        final List<Option> options = new LinkedList<Option>();
-        // Sort results by createdDateTime, get newest first
-        options.add(new QueryOption("orderby", "createdDateTime DESC"));
-
-        IMessageCollectionPage eventCollectionPage = graphClient
-                .me()
-                .mailFolders("inbox")
-                .messages()
-                .buildRequest().top(200)
-                .get();
-
-
-        List<Message> messageList = eventCollectionPage.getCurrentPage();
-
-
-        for (Message e:messageList
-        ) {
-            System.out.println(e.subject + " " +e.categories);
-
-        }
-    }
 }

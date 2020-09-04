@@ -27,7 +27,6 @@ public class MainWindow {
         Button login = new Button("Login");
 
         EventHandler<ActionEvent> loginButtonEvent = (actionEvent) -> {
-            Authentication.initialize();
             Authentication.getUserAccessToken();
             App.setUser(Graph.getUser(SimpleAuthProvider.getAccessToken()));
             if(App.getUser() == null){
